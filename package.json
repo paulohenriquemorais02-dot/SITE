@@ -1,0 +1,17 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev:frontend",
+    "dev:frontend": "cd frontend && set PORT=5175 && set NODE_ENV=development && yarn run start",
+    "dev:backend": "cd backend && uvicorn server:app --reload --port 8000",
+    "dev:all": "powershell -Command \"Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd backend; uvicorn server:app --reload --port 8000'\" && npm run dev:frontend",
+    "install:all": "cd frontend && yarn install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3"
+  }
+}
+
