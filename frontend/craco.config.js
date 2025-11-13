@@ -1,10 +1,19 @@
 // craco.config.js
 const path = require("path");
-require("dotenv").config();
 
-// Ensure NODE_ENV is set to development
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
-  process.env.NODE_ENV = 'development';
+// Try to load .env file if it exists (for local development)
+try {
+  require("dotenv").config();
+} catch (e) {
+  // dotenv not available or .env doesn't exist, continue without it
+}
+
+// Don't override NODE_ENV if it's already set (important for production builds)
+// Only set to development if explicitly running in dev mode
+if (process.argv.includes('start') || process.argv.includes('dev')) {
+  if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'development';
+  }
 }
 
 // Environment variable overrides
@@ -19,8 +28,12 @@ let babelMetadataPlugin;
 let setupDevServer;
 
 if (config.enableVisualEdits) {
-  babelMetadataPlugin = require("./plugins/visual-edits/babel-metadata-plugin");
-  setupDevServer = require("./plugins/visual-edits/dev-server-setup");
+  try {
+    babelMetadataPlugin = require("./plugins/visual-edits/babel-metadata-plugin");
+    setupDevServer = require("./plugins/visual-edits/dev-server-setup");
+  } catch (e) {
+    console.warn("Failed to load visual edits plugins:", e.message);
+  }
 }
 
 // Conditionally load health check modules only if enabled
@@ -29,9 +42,13 @@ let setupHealthEndpoints;
 let healthPluginInstance;
 
 if (config.enableHealthCheck) {
-  WebpackHealthPlugin = require("./plugins/health-check/webpack-health-plugin");
-  setupHealthEndpoints = require("./plugins/health-check/health-endpoints");
-  healthPluginInstance = new WebpackHealthPlugin();
+  try {
+    WebpackHealthPlugin = require("./plugins/health-check/webpack-health-plugin");
+    setupHealthEndpoints = require("./plugins/health-check/health-endpoints");
+    healthPluginInstance = new WebpackHealthPlugin();
+  } catch (e) {
+    console.warn("Failed to load health check plugins:", e.message);
+  }
 }
 
 const webpackConfig = {
@@ -40,8 +57,12 @@ const webpackConfig = {
       '@': path.resolve(__dirname, 'src'),
     },
     configure: (webpackConfig) => {
-      // Ensure development mode (fixes React Refresh error)
-      webpackConfig.mode = 'development';
+      // Don't override mode - let webpack determine it based on NODE_ENV
+      // Only set to development if we're in dev mode
+      if (process.argv.includes('start') || process.argv.includes('dev')) {
+        webpackConfig.mode = 'development';
+      }
+      // Otherwise, let webpack use production mode for builds
       
       // Disable hot reload completely if environment variable is set
       if (config.disableHotReload) {
