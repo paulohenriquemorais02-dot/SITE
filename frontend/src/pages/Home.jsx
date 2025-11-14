@@ -28,9 +28,8 @@ export const Home = () => {
   };
 
   const handleCTAClick = () => {
-    // Aqui será implementado o formulário de qualificação posteriormente
-    // Por enquanto, apenas scroll para contato
-    scrollToSection('contact');
+    const typebotUrl = 'https://typebot.io/?utm_source=litebadge';
+    window.open(typebotUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
