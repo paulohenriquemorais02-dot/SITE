@@ -87,7 +87,7 @@ export const Hero = ({ onCTAClick }) => {
                   size="lg"
                   className="w-full bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white text-lg shadow-xl transition-all duration-300"
                 >
-                  Começar Agora
+                  Consulta Gratuita
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>

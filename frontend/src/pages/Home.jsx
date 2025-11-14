@@ -5,6 +5,7 @@ import { Hero } from '../components/Hero';
 import { Testimonials } from '../components/Testimonials';
 import { Projects } from '../components/Projects';
 import { Footer } from '../components/Footer';
+import ChatbotWidget from '../components/ChatbotWidget';
 import { Toaster } from '../components/ui/sonner';
 
 export const Home = () => {
@@ -129,7 +130,7 @@ export const Home = () => {
               size="lg" 
               className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white text-xl px-12 py-6 shadow-2xl shadow-cyan-500/50 hover:shadow-cyan-500/70 transition-all duration-300 border-0"
             >
-              Quero Minha Consultoria Gratuita de 30min
+              Consulta Gratuita
               <Zap className="ml-2 w-5 h-5" />
             </Button>
           </div>
@@ -138,6 +139,7 @@ export const Home = () => {
 
       {/* Footer */}
       <Footer />
+      <ChatbotWidget />
     </div>
   );
 };
