@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run dev:frontend",
-    "dev:frontend": "cd frontend && set PORT=5175 && set NODE_ENV=development && yarn run start",
+    "dev:frontend": "npx cross-env PORT=5175 NODE_ENV=development yarn --cwd frontend start",
     "dev:backend": "cd backend && uvicorn server:app --reload --port 8000",
     "dev:all": "powershell -Command \"Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd backend; uvicorn server:app --reload --port 8000'\" && npm run dev:frontend",
     "install:all": "cd frontend && yarn install"
