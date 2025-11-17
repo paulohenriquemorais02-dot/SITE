@@ -29,8 +29,9 @@ export const Home = () => {
   };
 
   const handleCTAClick = () => {
-    const typebotUrl = 'https://typebot.io/?utm_source=litebadge';
-    window.open(typebotUrl, '_blank', 'noopener,noreferrer');
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('phb:open-typebot'));
+    }
   };
 
   return (
